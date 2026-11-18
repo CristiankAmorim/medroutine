@@ -1,0 +1,1 @@
+-keep class br.ucsal.medroutine.data.model.** { *; }

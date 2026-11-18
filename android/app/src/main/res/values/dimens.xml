@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margem_tela">20dp</dimen>
+    <dimen name="espaco">12dp</dimen>
+    <dimen name="espaco_pequeno">8dp</dimen>
+    <dimen name="raio_cartao">16dp</dimen>
+    <dimen name="toque_minimo">48dp</dimen>
+    <dimen name="botao_altura">56dp</dimen>
+    <dimen name="botao_idoso_altura">72dp</dimen>
+    <dimen name="texto_corpo">17sp</dimen>
+    <dimen name="texto_pequeno">15sp</dimen>
+    <dimen name="texto_titulo">22sp</dimen>
+    <dimen name="texto_idoso">20sp</dimen>
+    <dimen name="texto_idoso_titulo">28sp</dimen>
+    <dimen name="texto_idoso_hora">56sp</dimen>
+</resources>

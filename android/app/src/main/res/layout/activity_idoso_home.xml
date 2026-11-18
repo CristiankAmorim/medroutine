@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/raiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:menu="@menu/menu_idoso"
+        app:title="@string/doses_de_hoje" />
+
+    <include layout="@layout/include_faixa_demo" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/atualizar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:id="@+id/texto_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margem_tela"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="@dimen/texto_corpo" />
+
+                <TextView
+                    android:id="@+id/texto_saudacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margem_tela"
+                    android:accessibilityHeading="true"
+                    android:textColor="@color/texto"
+                    android:textSize="@dimen/texto_idoso_titulo"
+                    android:textStyle="bold" />
+
+                <include layout="@layout/include_aviso_permissoes" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margem_tela"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/seus_remedios_hoje"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lista_doses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingHorizontal="12dp" />
+
+                <TextView
+                    android:id="@+id/texto_vazio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margem_tela"
+                    android:gravity="center"
+                    android:text="@string/sem_doses_hoje"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="@dimen/texto_idoso"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margem_tela"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/celular_vai_tocar"
+                    android:textColor="@color/texto_secundario"
+                    android:textSize="@dimen/texto_corpo" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

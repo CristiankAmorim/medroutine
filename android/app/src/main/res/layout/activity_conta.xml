@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/raiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationContentDescription="@string/voltar"
+        app:navigationIcon="@drawable/ic_voltar"
+        app:title="@string/minha_conta" />
+
+    <include layout="@layout/include_faixa_demo" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <TextView
+                android:id="@+id/texto_nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Texto.Titulo" />
+
+            <TextView
+                android:id="@+id/texto_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Texto.Secundario" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/permissoes"
+                android:textAppearance="@style/Texto.Secao" />
+
+            <TextView
+                android:id="@+id/texto_perm_notificacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/Texto.Corpo" />
+
+            <TextView
+                android:id="@+id/texto_perm_push"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/Texto.Corpo" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botao_config_notificacoes"
+                style="@style/Widget.MedRoutine.Botao.Texto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/abrir_config_notificacoes" />
+
+            <LinearLayout
+                android:id="@+id/grupo_demo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/demo_titulo"
+                    android:textAppearance="@style/Texto.Secao" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/demo_explicacao"
+                    android:textAppearance="@style/Texto.Secundario" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botao_demo_idoso"
+                    style="@style/Widget.MedRoutine.Botao.Contorno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/demo_ver_como_idoso" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botao_demo_reiniciar"
+                    style="@style/Widget.MedRoutine.Botao.Contorno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/demo_reiniciar" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/seus_dados"
+                android:textAppearance="@style/Texto.Secao" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/lgpd_texto"
+                android:textAppearance="@style/Texto.Secundario" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botao_sair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/sair" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botao_excluir_conta"
+                style="@style/Widget.MedRoutine.Botao.Texto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/excluir_conta"
+                android:textColor="@color/alerta" />
+
+            <TextView
+                android:id="@+id/texto_versao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAppearance="@style/Texto.Secundario" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

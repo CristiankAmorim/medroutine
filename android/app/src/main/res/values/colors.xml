@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaria">#12355B</color>
+    <color name="primaria_escura">#0B2440</color>
+    <color name="primaria_clara">#D9E2EC</color>
+    <color name="destaque">#FFD166</color>
+    <color name="confirmacao">#0B6E4F</color>
+    <color name="confirmacao_fundo">#DDF3EA</color>
+    <color name="alerta">#8A3B00</color>
+    <color name="alerta_fundo">#FDE7D6</color>
+    <color name="alerta_texto">#5C2A00</color>
+    <color name="texto">#1B1F24</color>
+    <color name="texto_secundario">#3B4450</color>
+    <color name="fundo">#F4F6F8</color>
+    <color name="superficie">#FFFFFF</color>
+    <color name="borda">#D5DBE3</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="demo_fundo">#FFF4D6</color>
+    <color name="demo_texto">#5C4300</color>
+    <color name="ic_launcher_background">#12355B</color>
+</resources>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaria"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/faixa_demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@color/demo_fundo"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="@string/faixa_demo"
+            android:textColor="@color/demo_texto"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="10dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_marca"
+                app:tint="@color/destaque" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lembrete_titulo"
+                android:textColor="@color/destaque"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/texto_hora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/branco"
+            android:textSize="@dimen/texto_idoso_hora"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/texto_medicamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/branco"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/texto_dosagem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/texto_orientacoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/primaria_clara"
+            android:textSize="@dimen/texto_idoso" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="32dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botao_tomei"
+            style="@style/Widget.MedRoutine.Botao.Confirmar"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:text="@string/ja_tomei"
+            android:textSize="26sp"
+            app:icon="@drawable/ic_check"
+            app:iconGravity="textStart"
+            app:iconSize="32dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botao_adiar"
+            style="@style/Widget.MedRoutine.Botao.Contorno"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/botao_idoso_altura"
+            android:layout_marginTop="16dp"
+            android:text="@string/lembrar_10_min"
+            android:textColor="@color/branco"
+            android:textSize="20sp"
+            app:strokeColor="@color/branco" />
+
+        <TextView
+            android:id="@+id/texto_rodape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/lembrete_rodape"
+            android:textColor="@color/primaria_clara"
+            android:textSize="@dimen/texto_corpo" />
+    </LinearLayout>
+</ScrollView>
