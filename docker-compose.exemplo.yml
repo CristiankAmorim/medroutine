@@ -1,0 +1,38 @@
+# Modelo do docker-compose.yml. Copie para docker-compose.yml, troque os valores TROQUE_... e rode:
+#   docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: medroutine
+      POSTGRES_USER: medroutine
+      POSTGRES_PASSWORD: TROQUE_SENHA_DO_BANCO
+    ports:
+      - "5432:5432"
+    volumes:
+      - dados-medroutine:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medroutine"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/medroutine
+      DB_USER: medroutine
+      DB_PASSWORD: TROQUE_SENHA_DO_BANCO
+      JWT_SECRET: TROQUE_POR_UM_SEGREDO_LONGO_E_ALEATORIO_COM_32_OU_MAIS_CARACTERES
+      # Para enviar push de verdade, coloque o JSON da conta de serviço do Firebase em
+      # backend/firebase-service-account.json e descomente as três linhas abaixo.
+      # FIREBASE_CREDENTIALS: /app/firebase-service-account.json
+    # volumes:
+    #   - ./backend/firebase-service-account.json:/app/firebase-service-account.json:ro
+    ports:
+      - "8080:8080"
+
+volumes:
+  dados-medroutine:

@@ -1,0 +1,20 @@
+# Segredos e arquivos locais: nunca enviar ao repositório
+backend/firebase-service-account.json
+**/firebase-service-account*.json
+**/*firebase-adminsdk*.json
+android/app/google-services.json
+**/local.properties
+.env
+*.bak
+
+# Gerados pelo build e pelas IDEs
+**/build/
+**/target/
+**/.gradle/
+**/.idea/
+*.iml
+.DS_Store
+
+# Configurações com senhas locais (no repositório vão só os modelos .exemplo)
+docker-compose.yml
+backend/src/main/resources/application.yml
