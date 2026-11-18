@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: medroutine-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/medroutine}
+    username: ${DB_USER:medroutine}
+    password: ${DB_PASSWORD:TROQUE_SENHA_DO_BANCO}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+medroutine:
+  jwt:
+    segredo: ${JWT_SECRET:TROQUE_POR_UM_SEGREDO_LONGO_E_ALEATORIO_COM_32_OU_MAIS_CARACTERES}
+    validade-cuidador-dias: 30
+    validade-idoso-dias: 365
+  firebase:
+    credenciais: ${FIREBASE_CREDENTIALS:}
+  mail:
+    remetente: ${MAIL_FROM:nao-responda@medroutine.app}
+
+logging:
+  level:
+    br.ucsal.medroutine: INFO
