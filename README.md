@@ -4,7 +4,7 @@ Aplicativo de apoio a cuidadores no processo de administração de medicações 
 (TCC – ADS/UCSAL). O repositório segue a arquitetura da Seção 5.2 do artigo:
 
 ```
-┌──────────────────────────────┐        HTTPS/JSON        ┌───────────────────────────────────────┐
+┌──────────────────────────────┐       HTTP(S)/JSON       ┌───────────────────────────────────────┐
 │ App Android nativo (Java/XML)│ ───────────────────────▶ │ Back-end (API REST – Spring Boot)     │
 │  • interface do idoso        │                          │  • módulo de autenticação/autorização │
 │  • interface do cuidador     │ ◀─── push (FCM) ──────── │  • módulo de regras de negócio        │
@@ -25,7 +25,7 @@ Aplicativo de apoio a cuidadores no processo de administração de medicações 
 As regras de negócio centrais (geração de doses, tolerância e transição de estados) ficam no pacote
 `br.ucsal.medroutine.domain`, em Java puro, **com o mesmo código no back-end e no app**. O servidor é a
 referência (RNF01). O app usa a mesma cópia para validar formulários e para executar o modo demonstração.
-Os testes unitários desse pacote (RNF18) estão em `backend/src/test` e `android/app/src/test`.
+Os testes unitários desse pacote (RNF14) estão em `backend/src/test` e `android/app/src/test`.
 
 ---
 
@@ -66,9 +66,9 @@ As tabelas são criadas pelo Flyway (`backend/src/main/resources/db/migration/V1
 
 1. No Android Studio (Koala ou mais recente), use **File ▸ Open** e escolha a pasta `android/`.
 2. Aguarde a sincronização do Gradle (AGP 8.5.2, Gradle 8.7, JDK 17).
-3. Rode no emulador. O endereço padrão da API é `http://10.0.2.2:8080/`, que é o computador vendo pelo emulador.
-   Em um celular físico, toque em **Configurar servidor** na tela inicial e informe o IP do computador,
-   por exemplo `http://192.168.0.10:8080/`.
+3. Rode em um celular físico ligado na mesma rede do computador: na tela inicial, toque em **Configurar servidor**
+   e informe o IP do computador, por exemplo `http://192.168.0.10:8080/`. No emulador, o endereço padrão
+   `http://10.0.2.2:8080/` já aponta para o computador.
 
 **Push (FCM):** crie um projeto no [console do Firebase](https://console.firebase.google.com), adicione um
 app Android com o pacote `br.ucsal.medroutine` e baixe o `google-services.json` para `android/app/`. O plugin
@@ -87,7 +87,7 @@ Na tela inicial, toque em **Conhecer o modo demonstração** e escolha *idosa (M
 - Em *Minha conta ▸ Reiniciar dados da demonstração*, a demonstração recomeça do zero.
 
 Com isso, a apresentação pode ser repetida mesmo que o servidor, a internet ou o Firebase estejam
-indisponíveis (restrições do projeto, Seção 5.1).
+indisponíveis.
 
 ---
 
@@ -137,12 +137,12 @@ o sinal de confirmação, em `#FFD166` sobre `#12355B`, com camada monocromátic
 
 | Método | Caminho | Perfil | Requisito |
 |---|---|---|---|
-| POST | `/api/auth/cadastro` · `/login` · `/recuperar-senha` · `/redefinir-senha` | público | RF01, RNF13 |
+| POST | `/api/auth/cadastro` · `/login` · `/recuperar-senha` · `/redefinir-senha` | público | RF01, RNF09 |
 | POST | `/api/auth/codigo-idoso` | público | RF03 |
-| GET, DELETE | `/api/conta` | ambos | RNF13 |
+| GET, DELETE | `/api/conta` | ambos | RNF09 |
 | PUT, POST | `/api/conta/token-aparelho` · `/api/conta/sair` | ambos | RF01, RF14 |
 | GET, POST | `/api/idosos` | cuidador | RF03, RF04 |
-| PUT, DELETE | `/api/idosos/{id}` | cuidador | RNF05, RNF13 |
+| PUT, DELETE | `/api/idosos/{id}` | cuidador | RF03, RNF09 |
 | POST | `/api/idosos/{id}/codigo-acesso` · `/convites` | cuidador | RF03, RF04 |
 | POST | `/api/vinculos/aceitar` | cuidador | RF04 |
 | DELETE | `/api/idosos/{id}/vinculo` | cuidador | RF04 |
@@ -151,7 +151,7 @@ o sinal de confirmação, em `#FFD166` sobre `#12355B`, com camada monocromátic
 | POST | `/api/medicamentos/{id}/desativar` | cuidador | RF09 |
 | GET | `/api/idosos/{id}/doses?data=` | cuidador | RF16 |
 | GET | `/api/idosos/{id}/historico?inicio=&fim=&medicamentoId=` | cuidador | RF17 |
-| GET | `/api/notificacoes` | cuidador | RF14, RF15, RF20 |
+| GET | `/api/notificacoes` | cuidador | RF14, RF15 |
 | GET | `/api/doses/{id}` | ambos | RF16 |
 | POST | `/api/doses/{id}/confirmacao` | ambos | RF11, RF12, RF13 |
 | GET | `/api/eu/agenda` | idoso | RF10 |
@@ -169,38 +169,39 @@ Os erros seguem o formato `{ "mensagem": "...", "campo": "dataFim" }`, com o cam
 | RF05–RF07 Medicamento, frequência e tolerância | `MedicamentoService`, `ValidadorTratamento`, `MedicamentoFormActivity` |
 | RF08 Horizonte de 7 dias | `GeradorDoses`, `DoseService.gerarDoses` e `renovarHorizonte` (diário) |
 | RF09 Alteração preservando o histórico | `MedicamentoService.atualizar` / `desativar`, `DoseRepository.removerPendentesFuturas` |
-| RF10 Lembrete em tela cheia, offline, adiar e boot | `AgendadorLembretes`, `LembreteReceiver`, `LembreteActivity`, `BootReceiver` |
+| RF10 Lembrete em tela cheia, offline, adiar e boot | `AgendadorLembretes` (`setAlarmClock`; sem permissão de alarme exato, `setAndAllowWhileIdle` com aviso), `LembreteReceiver`, `LembreteActivity`, `BootReceiver` |
 | RF11 Confirmação 60 min antes, offline | `RegrasDose.podeConfirmar`, `FilaConfirmacoes`, `SincronizarConfirmacoesWorker` |
 | RF12 Confirmação pelo cuidador | `ConfirmacaoDose.peloCuidador`, `DoseDetalheActivity` |
 | RF13 Estados da dose | `EstadoDose`, `RegrasDose.estadoAposConfirmacao`, UNIQUE em `confirmacao_dose.dose_id` |
 | RF14 Notificação de confirmação | `ConfirmacaoService`, `NotificacaoService`, `MensagensNotificacao` |
-| RF15 Alerta único por dose | `VerificacaoDosesService` (a cada minuto), `marcarNaoConfirmada`, UNIQUE em `notificacao` |
+| RF15 Alerta único por dose | `VerificacaoDosesService` (a cada minuto), `marcarNaoConfirmada`, UNIQUE em `notificacao`, estado do envio em `Notificacao` (PENDENTE/ENVIADA/FALHA) |
 | RF16 Estado sempre atualizado | `PainelFragment`, `DoseDetalheActivity` (aberta pela notificação) |
 | RF17 Histórico | `DoseService.historico`, `HistoricoFragment` |
 | RF18 Validação | `ValidadorTratamento` (servidor e app), `GlobalExceptionHandler` |
 | RF19 Permissões | `PermissoesHelper`, `include_aviso_permissoes.xml` |
-| RF20 Registro de envio | `Notificacao` (PENDENTE/ENVIADA/FALHA, tentativas, erro) |
-| RNF01 UTC | colunas `timestamptz`, `Instant`, `Relogio` do servidor, `horario_aparelho` |
-| RNF03 Um toque | botão "Já tomei" no lembrete, na notificação e na lista |
-| RNF04 Acessibilidade | textos em sp, toques ≥ 48 dp, `contentDescription`, paleta com contraste ≥ 4,5:1 |
-| RNF05 Áudio | `res/raw/lembrete.wav`, `TextToSpeech` quando `anuncioVoz` está ativo |
-| RNF06 Alarmes exatos | `setExactAndAllowWhileIdle` ou, sem permissão, `setAndAllowWhileIdle` com aviso |
-| RNF07 Fila persistente idempotente | Room (`confirmacao_pendente`) + WorkManager + confirmação idempotente no servidor |
-| RNF08 Três tentativas | `NotificacaoService.TENTATIVAS_MAXIMAS` |
-| RNF09 Integridade | restrições UNIQUE e transação na confirmação e no alerta |
-| RNF10 Execução a cada minuto | `@Scheduled(fixedDelay = 60_000)` |
-| RNF12 Segurança | bcrypt, JWT, HTTPS no build de release, vínculo verificado no servidor |
-| RNF13 LGPD | consentimento no cadastro, exclusão da conta e do perfil do idoso |
-| RNF14 Android 8+ e retrato | `minSdk 26`, `screenOrientation="portrait"` |
-| RNF16 Serviços externos | Firebase Cloud Messaging (seção 5 abaixo) |
-| RNF17 Modularidade | camadas `domain` / `data` / `ui` no app; `auth` / `service` / `repository` / `web` no servidor |
-| RNF18 Testes com relógio injetável | `Relogio`, `GeradorDosesTest`, `RegrasDoseTest`, `ValidadorTratamentoTest` |
+| RNF01 Precisão temporal | colunas `timestamptz`, `Instant`, `Relogio` do servidor, `horario_aparelho` aceito até 2 min (`RegrasDose.TOLERANCIA_RELOGIO`) |
+| RNF02 Simplicidade do fluxo do idoso | botão "Já tomei" no lembrete, na notificação e na lista |
+| RNF03 Suporte de áudio | `res/raw/lembrete.wav`, `TextToSpeech` quando `anuncioVoz` está ativo |
+| RNF04 Funcionamento sem conexão | Room (`confirmacao_pendente`) + WorkManager + confirmação idempotente no servidor |
+| RNF05 Integridade dos dados | restrições UNIQUE e transação na confirmação e no alerta |
+| RNF06 Tempo de alerta | `@Scheduled(fixedDelay = 60_000)` |
+| RNF07 Tempo de resposta | verificado nos testes funcionais |
+| RNF08 Autenticação e autorização | bcrypt, JWT, vínculo verificado no servidor |
+| RNF09 Privacidade e LGPD | consentimento no cadastro, exclusão da conta e do perfil do idoso |
+| RNF10 Plataforma suportada | `minSdk 26`, `screenOrientation="portrait"` |
+| RNF11 Independência de hardware dedicado | funciona só com os celulares do idoso e do cuidador |
+| RNF12 Dependência de serviços externos | Firebase Cloud Messaging (seção 5 abaixo) |
+| RNF13 Modularidade | camadas `domain` / `data` / `ui` no app; `auth` / `service` / `repository` / `web` no servidor |
+| RNF14 Testabilidade | `Relogio`, `GeradorDosesTest`, `RegrasDoseTest`, `ValidadorTratamentoTest` |
 
-## 5. Serviços externos e limitações (RNF16)
+## 5. Serviços externos e limitações (RNF12)
 
 - **Firebase Cloud Messaging:** entrega o push ao cuidador. A entrega depende da conectividade e do estado do
   aparelho, então não é garantida. Por isso o estado `ENVIADA` só significa que o FCM aceitou a mensagem, e a
   situação da dose é sempre consultada no servidor.
+  Cada envio é tentado até três vezes (`NotificacaoService.TENTATIVAS_MAXIMAS`).
+- **HTTP e HTTPS:** nos testes, o servidor rodou na rede local e foi acessado por HTTP (build debug). O build
+  release só aceita HTTPS e aponta para um endereço que ainda precisa ser publicado.
 - **Fabricantes com economia de bateria agressiva** (Xiaomi, Samsung, entre outros) podem atrasar alarmes. Nesses
   aparelhos, oriente o usuário a remover o MedRoutine da otimização de bateria.
 - **Tela cheia:** no Android 14, o lembrete em tela cheia pode exigir permissão concedida pelo usuário. O app
