@@ -121,9 +121,17 @@ public class LembreteActivity extends AppCompatActivity {
     }
 
     private void anunciar(String texto) {
+        if (voz != null) {
+            voz.stop();
+            voz.shutdown();
+            voz = null;
+        }
         voz = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS && voz != null) {
-                voz.setLanguage(new Locale("pt", "BR"));
+                int idioma = voz.setLanguage(new Locale("pt", "BR"));
+                if (idioma == TextToSpeech.LANG_MISSING_DATA || idioma == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    voz.setLanguage(Locale.getDefault());
+                }
                 voz.setAudioAttributes(new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_ALARM)
                         .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
